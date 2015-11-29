@@ -1,0 +1,67 @@
+body{
+
+}
+.box{
+    display: inline-block;
+    position: relative;
+}
+
+.box button{
+    width: 2em;
+    height: 2em;
+    font-size: 2em;
+    vertical-align: middle;
+    color:dimgrey
+}
+
+.box select {
+    height: 100%;
+    position: absolute;
+    width: 100%;
+    font-size: 2em;
+    opacity: 0;
+}
+.box.editing select{
+    opacity:1;
+}
+
+.size16 .box button,.size16 .box select{
+    font-size: 1.5em;
+}
+
+.box.initial button{
+    font-weight: bold;
+    color:black;
+
+    background-image: -webkit-linear-gradient(top,#fff 0,grey 100%);
+    background-image: -o-linear-gradient(top,#fff 0,grey 100%);
+    background-image: -webkit-gradient(linear,left top,left bottom,from(#fff),to(grey));
+    background-image: linear-gradient(to bottom,#fff 0,grey 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffffff', endColorstr='grey', GradientType=0);
+    filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+}
+.box.highlight button{
+
+    background-image: -webkit-linear-gradient(top,yellow 0,#f0ad4e 100%);
+    background-image: -o-linear-gradient(top,yellow 0,#f0ad4e 100%);
+    background-image: -webkit-gradient(linear,left top,left bottom,from(yellow),to(#f0ad4e));
+    background-image: linear-gradient(to bottom,yellow 0,#f0ad4e 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='yellow', endColorstr='#f0ad4e', GradientType=0);
+    filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+    color:black;
+}
+
+#grid{
+    margin: 2em;
+}
+#grid_container{
+    text-align: center;
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 60px;
+    background-color: #f5f5f5;
+}
