@@ -7,8 +7,25 @@
  */
 class Board {
 
+    /**
+     * matrix size
+     *
+     * @var int
+     */
     public $matrix_size;
+
+    /**
+     * possibible values for Boxes
+     *
+     * @var int
+     */
     public $possibilities = array();
+
+    /**
+     * indexed array of Boxes
+     *
+     * @var array of Boxes
+     */
     protected $spots = array();
 
     /*
@@ -17,6 +34,7 @@ class Board {
      * @param int $matrix_size
      * @return Box
      */
+
     public function __construct(array $input, $matrix_size = 9) {
 
         if ((sqrt($matrix_size) % 1) != 0) {
@@ -36,6 +54,7 @@ class Board {
      * @param int $index
      * @return Box
      */
+
     public function getBox($index) {
         if (isset($this->spots[$index])) {
             return $this->spots[$index];
@@ -65,7 +84,7 @@ class Board {
         while ($resolved) {
             $resolved = 0;
             foreach ($this->getEmpties() as $box) {
-                if ($box->try_resolve($this))
+                if ($box->tryResolve($this))
                     $resolved ++;
             }
         }

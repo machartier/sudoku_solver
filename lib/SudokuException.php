@@ -5,5 +5,5 @@
  * @author macha
  */
 class SudokuException extends Exception {
-    //put your code here
+    
 }

@@ -7,7 +7,13 @@
  */
 class Square extends BoxCollection {
 
-    protected function init($box, $board) {
+    /**
+     * initialize list of contained boxes
+     * @param Box $box reference box
+     * @param Board board
+     * @return void
+     */
+    protected function init(Box $box, Board $board) {
         $line = floor($box->position / $board->matrix_size);
         $col = $box->position - ($line * $board->matrix_size);
 

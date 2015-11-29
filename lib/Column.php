@@ -7,7 +7,13 @@
  */
 class Column extends BoxCollection {
 
-    protected function init($box, $board) {
+    /**
+     * initialize list of contained boxes
+     * @param Box $box reference box
+     * @param Board board
+     * @return void
+     */
+    protected function init(Box $box, Board $board) {
         $this->position = $box->position % $board->matrix_size;
 
         for ($i = 0; $i < $board->matrix_size; $i++) {
