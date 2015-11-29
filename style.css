@@ -21,12 +21,24 @@ body{
     font-size: 2em;
     opacity: 0;
 }
+.box select option{
+    padding-left: 0.5em;
+}
 .box.editing select{
     opacity:1;
 }
 
 .size16 .box button,.size16 .box select{
     font-size: 1.5em;
+}
+
+@media (max-width:767px){
+    .box button,.box select{
+        font-size: 1.5em;
+    }
+    .size16 .box button,.size16 .box select{
+    font-size: 1em;
+}
 }
 
 .box.initial button{
@@ -58,6 +70,8 @@ body{
 #grid .alert{
     position: absolute;
     right: 0;
+    z-index: 200;
+    top:2em;
 }
 #grid_container{
     text-align: center;
