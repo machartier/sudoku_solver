@@ -18,6 +18,7 @@ $(function() {
             this.value = val ? val : null;
             this.$editing_widget.val(this.value);
             $('>button', this.$elt).html(val ? val : '');
+            $('>select', this.$elt).val(val ? val : '');
 
             if (val && initial)
                 this.$elt.addClass('initial');
@@ -42,15 +43,13 @@ $(function() {
                 select.append('<option>' + (i + 1) + '</option>');
             }
             select.val(this.value);
-            select.change(function() {
-
-                box.setVal($(this).val(), true);
-
+            select.bind('click change',function() {
+                box.setVal($(this).val(), !box.board.validated);
                 box.$elt.removeClass('editing');
                 box.editing = false;
                 box.edit(false);
-
             });
+
             return select;
         };
 
@@ -72,7 +71,6 @@ $(function() {
         this.$editing_widget = this.makeeditorwidget();
         this.$elt.prepend(this.$editing_widget);
         this.$elt.click(function() {
-            //if(box.editing = true);
             box.edit(box.editing);
         });
     }
@@ -80,6 +78,7 @@ $(function() {
     function Sudoku($elt) {
         this.boxes = [];
         this.size = 9;
+        this.validated=false;
         this.init = function(size, values) {
             this.boxes = [];
             this.size = size;
@@ -100,6 +99,7 @@ $(function() {
             this.load(values);
         };
         this.load = function(values) {
+            this.validated=false;
             if (values) {
 
                 for (var pos in values) {
@@ -122,6 +122,8 @@ $(function() {
             $elt.find('div.alert').remove();
             var values = this.getValues();
             var self = this;
+            this.validated=true;
+            
             $.post('ajax.php', {values: values, matrix_size: self.size}, function(response) {
                 self.displayResolution(response.log, true);
                 /*for (var pos in response.result) {

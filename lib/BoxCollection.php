@@ -39,16 +39,32 @@ abstract class BoxCollection {
     }
 
     /**
-     * return remaining possibilities for container
-     * @return array of int
+     * retrieve values in the container
+     * @return boolean
      */
-    public function getMissing() {
-        $values = array_map(function($box) {
+    protected function getValues() {
+        return array_map(function($box) {
             return $box->value;
         }, array_filter($this->boxes, function($box) {
                     return !$box->isEmpty();
                 }));
-        return array_diff($this->board->possibilities, $values);
+    }
+
+    /**
+     * return remaining possibilities for container
+     * @return array of int
+     */
+    public function getMissing() {
+        return array_diff($this->board->possibilities, $this->getValues());
+    }
+
+    /**
+     * test if container is valid
+     * @return boolean
+     */
+    public function check() {
+        $values = $this->getValues();
+        return count($values) == count(array_unique($values));
     }
 
     /**

@@ -34,11 +34,12 @@ body{
 
 @media (max-width:767px){
     .box button,.box select{
-        font-size: 1.5em;
+        font-size: 1.3em;
     }
     .size16 .box button,.size16 .box select{
-    font-size: 1em;
-}
+        font-size: 0.7em;
+        padding:0.2em;
+    }
 }
 
 .box.initial button{

@@ -47,6 +47,10 @@ class Board {
         for ($i = 0; $i < $this->matrix_size * $this->matrix_size; $i++) {
             $this->spots[$i] = new Box($i, isset($input[$i]) ? $input[$i] : null, $this);
         }
+
+        if (!$this->check()) {
+            throw new SudokuException('board is not valid');
+        }
     }
 
     /*
@@ -71,6 +75,37 @@ class Board {
         return array_filter($this->spots, function($box) {
             return $box->isEmpty();
         });
+    }
+
+    /**
+     * execute check
+     * @return boolean
+     */
+    protected function check() {
+        $checked = true;
+        for ($i = 0; $i < $this->matrix_size; $i++) {
+            $checked = $checked && $this->spots[$i]->getColumn()->check();
+            if (!$checked) {
+                return false;
+            }
+        }
+
+        for ($i = 0; $i < $this->matrix_size; $i++) {
+            $checked = $checked && $this->spots[$i * $this->matrix_size]->getLine()->check();
+            if (!$checked) {
+                return false;
+            }
+        }
+
+        for ($i = 0; $i < sqrt($this->matrix_size); $i++) {
+            for ($j = 0; $j < sqrt($this->matrix_size); $j++) {
+                $checked = $checked && $this->spots[$i * sqrt($this->matrix_size) + $j * $this->matrix_size * sqrt($this->matrix_size)]->getSquare()->check();
+                if (!$checked) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     /**
