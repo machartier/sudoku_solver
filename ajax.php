@@ -59,12 +59,13 @@ catch (Exception $e) {
         $message = 'Erreur inconnue';
         $status_code = 500;
     }
-      error_log($status_code);
+    
     header($_SERVER['SERVER_PROTOCOL'] . $status_code . ' ' . $message, true, $status_code);
     http_response_code($status_code);
     echo json_encode(array(
         'error' => true,
-        'message' => $message
+        'message' => $message,
+        'log'=>$resolution_log
     ));
 }
 //TODO : error handler

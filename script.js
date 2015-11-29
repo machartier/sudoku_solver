@@ -13,11 +13,11 @@ $(function() {
         this.highlighttimeout = false;
         this.editing = false;
 
-
-
         this.setVal = function(val, initial) {
             this.value = val ? val : null;
-            this.$elt.find('>button').html(val ? val : '');
+            this.$editing_widget.val(this.value);
+            $('>button', this.$elt).html(val ? val : '');
+
             if (val && initial)
                 this.$elt.addClass('initial');
             else
@@ -68,7 +68,8 @@ $(function() {
         }
 
         this.$elt = $('<div class="box"><button class="btn btn-default "></div>');
-        this.$elt.prepend(this.makeeditorwidget());
+        this.$editing_widget = this.makeeditorwidget();
+        this.$elt.prepend(this.$editing_widget);
         this.$elt.click(function() {
             //if(box.editing = true);
             box.edit(box.editing);
@@ -78,10 +79,11 @@ $(function() {
     function Sudoku($elt) {
         this.boxes = [];
         this.size = 9;
-        this.init = function(size) {
+        this.init = function(size, values) {
+            this.boxes = [];
             this.size = size;
             $elt.html('');
-            $elt.removeClass()
+            $elt.removeClass();
             $elt.addClass('size' + size);
             for (var i = 0; i < this.size; i++) {
                 var line = $('<div>');
@@ -93,6 +95,8 @@ $(function() {
                 }
                 $elt.append(line);
             }
+
+            this.load(values);
         };
         this.load = function(values) {
             if (values) {
@@ -118,7 +122,7 @@ $(function() {
             var values = this.getValues();
             var self = this;
             $.post('ajax.php', {values: values, matrix_size: self.size}, function(response) {
-                self.displayResolution(response.log);
+                self.displayResolution(response.log, true);
                 /*for (var pos in response.result) {
                  self.boxes[pos].setVal(response.result[pos]);
                  }*/
@@ -129,17 +133,18 @@ $(function() {
     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>\
     <strong>' + message + '</strong>.\
 </div>');
+                window.setTimeout(function() {
+                    $elt.find('div.alert').remove();
+                }, 5000);
+
+                self.displayResolution(jqXHR.responseJSON.log);
                 $('#resolve').attr('disabled', false);
             });
         };
 
         ;
-        this.displayResolution = function(log_history) {
+        this.displayResolution = function(log_history, full) {
 
-            /*for (var i in log_history) {
-             var log = log_history[i];
-             this.boxes[log.box].setVal(log.value);
-             }*/
             var log_line = 0;
             var self = this;
             var log_interval = window.setInterval(function() {
@@ -174,20 +179,18 @@ $(function() {
                     for (var i in tohighlight) {
                         self.boxes[tohighlight[i]].highlight(what == 'box' ? 200 : 600);
                     }
-
                     log_line++;
-
                 }
                 else {
+
                     window.clearInterval(log_interval);
-                    for (i in self.boxes) {
-                        self.boxes[i].highlight(1000);
+                    if (full) {
+                        for (i in self.boxes) {
+                            self.boxes[i].highlight(1000);
+                        }
                     }
                     $('#resolve').attr('disabled', false);
-
                 }
-
-
             }, 100);
         };
         this.init(9);
@@ -195,10 +198,16 @@ $(function() {
     ;
     var grid = new Sudoku($('#grid'));
     $('#matrix_size').change(function() {
-        grid.init($(this).val());
+        grid.init($(this).val(), null);
     });
     $('#board').change(function() {
-        grid.load(saved_boards[$(this).val()]);
+        if (saved_boards[$(this).val()]) {
+            var size = Math.sqrt(saved_boards[$(this).val()].length);
+            $('#matrix_size').val(size);
+            grid.init(size, saved_boards[$(this).val()]);
+        }
+        else
+            grid.init($('#matrix_size').val());
         $('#resolve').attr('disabled', false);
     });
     $('#resolve').click(function() {

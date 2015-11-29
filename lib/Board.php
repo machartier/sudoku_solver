@@ -11,6 +11,12 @@ class Board {
     public $possibilities = array();
     protected $spots = array();
 
+    /*
+     * constructor
+     * @param array of int $input
+     * @param int $matrix_size
+     * @return Box
+     */
     public function __construct(array $input, $matrix_size = 9) {
 
         if ((sqrt($matrix_size) % 1) != 0) {
@@ -25,6 +31,11 @@ class Board {
         }
     }
 
+    /*
+     * get the Box of given position
+     * @param int $index
+     * @return Box
+     */
     public function getBox($index) {
         if (isset($this->spots[$index])) {
             return $this->spots[$index];
@@ -32,6 +43,10 @@ class Board {
         throw new SudokuException('index ' . $index . ' unavailable');
     }
 
+    /**
+     * returns not resolved Boxes
+     * @return array of Boxes
+     */
     protected function getEmpties() {
 
         return array_filter($this->spots, function($box) {
@@ -39,12 +54,13 @@ class Board {
         });
     }
 
-    /*
-     * 
+    /**
+     * execute resolving process
      * @return boolean true if board is resolved
      */
     protected function processResolve() {
 
+        // resolve resolvable
         $resolved = 1;
         while ($resolved) {
             $resolved = 0;
@@ -53,6 +69,7 @@ class Board {
                     $resolved ++;
             }
         }
+        // TODO if remaining empties, try hypothesis, with a stack
 
         if (count($this->getEmpties()))
             return false;
@@ -60,6 +77,10 @@ class Board {
         return true;
     }
 
+    /**
+     * resolve and return resolved spots
+     * @return array of spots with resolved values
+     */
     public function resolve() {
 
         $resolve = $this->processResolve();

@@ -53,6 +53,11 @@ body{
 
 #grid{
     margin: 2em;
+    position: relative;
+}
+#grid .alert{
+    position: absolute;
+    right: 0;
 }
 #grid_container{
     text-align: center;

@@ -53,7 +53,7 @@ class Box {
         $line_missing = $this->getLine()->getMissing();
         $col_missing = $this->getColumn()->getMissing();
         $sq_missing = $this->getSquare()->getMissing();
-
+        
         $this->possibilities = array_intersect($line_missing, $col_missing, $sq_missing);
 
         if (count($this->possibilities) == 1) {
