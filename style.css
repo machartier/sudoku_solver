@@ -11,7 +11,7 @@ body{
     height: 2em;
     font-size: 2em;
     vertical-align: middle;
-    color:dimgrey
+    color: dimgrey
 }
 
 .box select {
@@ -34,10 +34,15 @@ body{
 
 @media (max-width:767px){
     .box button,.box select{
-        font-size: 1.3em;
+        font-size: 1.1em;
     }
+
+    .size4 .box button,.size .box select{
+        font-size: 2em;
+    }
+
     .size16 .box button,.size16 .box select{
-        font-size: 0.7em;
+        font-size: 0.6em;
         padding:0.2em;
     }
 }
@@ -65,7 +70,7 @@ body{
 }
 
 #grid{
-    margin: 2em;
+    margin: 1.5em;
     position: relative;
 }
 #grid .alert{
